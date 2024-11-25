@@ -1,0 +1,28 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    # 每天运行一次同步
+    - cron: '0 0 * * *'  # UTC时间0点运行（可根据需求修改时间）
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      # 检出当前仓库代码
+      - name: Checkout fork repository
+        uses: actions/checkout@v3
+
+      # 添加 upstream 仓库
+      - name: Add upstream repository
+        run: |
+          git remote add upstream https://github.com/Awesome3DGS/3D-Gaussian-Splatting-Papers.git
+          git fetch upstream
+
+      # 同步 upstream 主分支到 fork 主分支
+      - name: Sync upstream branch
+        run: |
+          git checkout main  # 根据实际情况调整分支名，例如 master
+          git merge upstream/main --allow-unrelated-histories
+          git push origin main
