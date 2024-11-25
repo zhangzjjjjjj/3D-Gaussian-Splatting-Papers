@@ -14,6 +14,12 @@ jobs:
       - name: Checkout fork repository
         uses: actions/checkout@v3
 
+      # 设置 Git 用户信息
+      - name: Set Git user
+        run: |
+          git config --global user.name "zhangzj"
+          git config --global user.email "zhangzj.hit@gmail.com"
+
       # 添加 upstream 仓库
       - name: Add upstream repository
         run: |
